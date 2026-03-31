@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para una persona especial 💝</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffd3a5);
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Estrellas */
+        .star { position: absolute; color: white; font-size: 10px; animation: brillar 2s infinite alternate; }
+        @keyframes brillar { from { opacity: 0.2; } to { opacity: 0.8; } }
+
+        /* Botón Inicial */
+        #boton {
+            padding: 18px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 50px;
+            background: #ff2e63;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            z-index: 20;
+        }
+
+        /* Carta (Escritura lenta) */
+        #carta {
+            display: none;
+            max-width: 500px;
+            font-size: 22px;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+
+        /* Mensaje Final */
+        #contenedorFinal {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 15;
+        }
+
+        #mensajeFinal {
+            font-size: 38px;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px #ff4d6d;
+            margin-bottom: 20px;
+            animation: aparecer 1.5s ease forwards;
+        }
+
+        /* ANIMACIÓN DEL RAMO MEJORADO */
+        .bouquet-container {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            /* background: rgba(0,0,0,0.1); /* Depuración */
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            background: #4caf50;
+            border-radius: 2px;
+            transform-origin: bottom center;
+            animation: crecerTallo 2s ease-out forwards;
+        }
+
+        /* Contenedor de la cabeza de la flor */
+        .flower-head {
+            position: absolute;
+            top: -10px; /* Ajuste para centrar sobre el tallo */
+            left: -13px;
+            width: 30px;
+            height: 30px;
+            /* Ya no es solo un círculo, es el contenedor */
+        }
+
+        /* NUEVA ESTILIZACIÓN DE PÉTALOS */
+        .petal {
+            position: absolute;
+            background: #ff4d6d; /* Color por defecto */
+            border-radius: 50% 50% 0 0; /* Forma de pétalo */
+            opacity: 0;
+            transform-origin: bottom center;
+            animation: florecerPetalo 1s 1.8s ease-out forwards;
+            box-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+
+        /* Centro de la flor */
+        .flower-center {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            width: 16px;
+            height: 16px;
+            background: #ffeb3b; /* Amarillo centro */
+            border-radius: 50%;
+            opacity: 0;
+            animation: florecerCentro 0.5s 2s ease-out forwards;
+            z-index: 2;
+            box-shadow: 0 0 8px rgba(255,255,0,0.6);
+        }
+
+        /* Definición de pétalos individuales (tamaño y rotación) */
+        .petal-1 { width: 15px; height: 25px; top: -10px; left: 7.5px; transform: rotate(0deg); animation-delay: 1.8s; }
+        .petal-2 { width: 15px; height: 25px; top: -5px; left: 18px; transform: rotate(45deg); animation-delay: 1.85s; }
+        .petal-3 { width: 15px; height: 25px; top: 5px; left: 22px; transform: rotate(90deg); animation-delay: 1.9s; }
+        .petal-4 { width: 15px; height: 25px; top: 15px; left: 18px; transform: rotate(135deg); animation-delay: 1.95s; }
+        .petal-5 { width: 15px; height: 25px; top: 20px; left: 7.5px; transform: rotate(180deg); animation-delay: 2s; }
+        .petal-6 { width: 15px; height: 25px; top: 15px; left: -3px; transform: rotate(225deg); animation-delay: 2.05s; }
+        .petal-7 { width: 15px; height: 25px; top: 5px; left: -7px; transform: rotate(270deg); animation-delay: 2.1s; }
+        .petal-8 { width: 15px; height: 25px; top: -5px; left: -3px; transform: rotate(315deg); animation-delay: 2.15s; }
+
+
+        /* Diferentes posiciones para el ramo */
+        .f1 { height: 100px; transform: rotate(-15deg); left: 70px; }
+        .f2 { height: 120px; transform: rotate(0deg); left: 98px; }
+        .f3 { height: 100px; transform: rotate(15deg); left: 126px; }
+
+        @keyframes crecerTallo { from { height: 0; } }
+        @keyframes florecerPetalo { 
+            from { transform: scale(0) rotate(inherit); opacity: 0; } 
+            to { transform: scale(1) rotate(inherit); opacity: 1; } 
+        }
+        @keyframes florecerCentro { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes aparecer { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Fuegos Artificiales Mejorados */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Otros elementos */
+        .heart { position: absolute; bottom: -50px; font-size: 25px; animation: subir 6s linear infinite; }
+        @keyframes subir { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-110vh); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <button id="boton" onclick="iniciarSorpresa()">🎁 Para ti... 💖</button>
+
+    <div id="carta"></div>
+
+    <div id="contenedorFinal">
+        <div id="mensajeFinal"></div>
+        <div class="bouquet-container">
+            <div class="stem f1">
+                <div class="flower-head">
+                    <div class="flower-center"></div>
+                </div>
+            </div>
+            <div class="stem f2">
+                <div class="flower-head">
+                    <div class="flower-center"></div>
+                </div>
+            </div>
+            <div class="stem f3">
+                <div class="flower-head">
+                    <div class="flower-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="musica" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const textoCarta = "Hoy no solo celebramos tu cumpleaños, celebramos lo especial que eres... Gracias por existir, por tu luz y por hacer que cada día sea más bonito. Espero que este nuevo año esté lleno de sueños cumplidos y muchas razones para sonreír.";
+        
+        // Colores para las tres flores
+        const coloresFlores = ["#ff8fa3", "#ff2e63", "#ffb3c1"];
+
+        function iniciarSorpresa() {
+            document.getElementById("boton").style.display = "none";
+            document.getElementById("musica").play().catch(() => {});
+            
+            const cartaDiv = document.getElementById("carta");
+            cartaDiv.style.display = "block";
+            
+            let i = 0;
+            function escribirCarta() {
+                if (i < textoCarta.length) {
+                    cartaDiv.innerHTML += textoCarta[i];
+                    i++;
+                    setTimeout(escribirCarta, 80); 
+                } else {
+                    setTimeout(transicionFinal, 2500);
+                }
+            }
+            escribirCarta();
+        }
+
+        function transicionFinal() {
+            const cartaDiv = document.getElementById("carta");
+            cartaDiv.style.transition = "opacity 1.5s";
+            cartaDiv.style.opacity = "0";
+
+            setTimeout(() => {
+                cartaDiv.style.display = "none";
+                document.getElementById("contenedorFinal").style.display = "flex";
+                document.getElementById("mensajeFinal").innerHTML = "¡FELIZ CUMPLEAÑOS!<br>PRECIOSA DE MI CORAZÓN 💖";
+
+                // GENERAR PÉTALOS DINÁMICAMENTE
+                const flowerHeads = document.querySelectorAll('.flower-head');
+                flowerHeads.forEach((head, index) => {
+                    for (let p = 1; p <= 8; p++) {
+                        const petal = document.createElement('div');
+                        petal.className = `petal petal-${p}`;
+                        petal.style.backgroundColor = coloresFlores[index]; // Asignar color específico
+                        head.appendChild(petal);
+                    }
+                });
+
+                // Efectos continuos
+                setInterval(crearCorazon, 500);
+                setInterval(lanzarFuegoArtificial, 1000);
+            }, 1500);
+        }
+
+        function lanzarFuegoArtificial() {
+            const x = Math.random() * 100;
+            const y = Math.random() * 50 + 10;
+            const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.backgroundColor = color;
+                p.style.left = x + 'vw';
+                p.style.top = y + 'vh';
+                p.style.boxShadow = `0 0 8px ${color}`;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 120 + 60;
+                const destX = Math.cos(angle) * velocity;
+                const destY = Math.sin(angle) * velocity;
+
+                document.body.appendChild(p);
+
+                p.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${destX}px, ${destY}px) scale(0)`, opacity: 0 }
+                ], { duration: 1200, easing: 'cubic-bezier(0, .9, .57, 1)' }).onfinish = () => p.remove();
+            }
+        }
+
+        function crearCorazon() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        // Generar estrellas iniciales
+        for(let i=0; i<50; i++){
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.innerHTML = "✦";
+            star.style.left = Math.random()*100+"vw";
+            star.style.top = Math.random()*100+"vh";
+            star.style.animationDelay = Math.random()*2+"s";
+            document.body.appendChild(star);
+        }
+    </script>
+</body>
+</html>
